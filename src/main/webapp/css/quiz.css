@@ -1,0 +1,11 @@
+body {
+    padding-top: 50px;
+}
+#myTable a{
+    display:block;
+    text-decoration:none;
+}
+#updatepanel{
+    width: 20%;
+    text-align: center;
+}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BKs Quiz!</title>
+
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 70px;
+        }
+        .row {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+        }
+        #qSpmForm {
+            border: 3px solid green;
+            padding: 10px;
+            left: 10px;
+        }
+        #progressBar {
+            width: 100%;
+        }
+        .alts{
+            font-size: 1.7em;
+        }
+        #text{
+            text-align: center;
+        }
+        #sekunder{
+            color: red;
+        }
+    </style>
+</head>
+<body> <!-- BODY-------------------------------------------------------------------------------- -->
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">BKs Quiz!</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Quizzer</a></li>
+                <li><a href="registrer.html">Registrer Ny</a></li>
+                <li><a href="scoreboard.html">Scoreboard</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="qQuizcontainer">
+            <div id="QueNavnDiv">
+                <h3 id="qQuizNavn"></h3>
+            </div>
+            <form id="qSpmForm">
+                <h2 id="qSpm1"></h2>
+                <input id="Alternative1" type="radio" name="question" value="Alt1"><span class="alts" id = "alt0"></span><br>
+                <input id="Alternative2" type="radio" name="question" value="Alt2"><span class="alts" id = "alt1"></span><br>
+                <!--<input type="button" value="Submit" id = "submit">-->
+            </form>
+            <div id="countdown">
+                <progress value="20" max="20" id="progressBar"></progress><br>
+                <div id="text">
+                    <span class="alts">Du har </span><span class="alts" id="sekunder"></span><span class="alts"> sekunder på å svare!</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function ($) {
+
+        function getCurrentQuiz(){
+            return $.ajax({
+                type: "GET",
+                url: "rest/quiz/getCurrentQuiz",
+                async: false
+            }).responseText;
+        }
+
+        function getCurrentQuestion(){
+            return $.ajax({
+                type: "GET",
+                url: "rest/quiz/getCurrentQuestion",
+                async: false
+            }).responseText;
+        }
+        var quizId = getCurrentQuiz();
+        var questionId = getCurrentQuestion();
+
+        function getQuizName(){
+            return $.ajax({
+                type:"GET",
+                url: "rest/quiz/getName/"+ quizId,
+                async: false
+            }).responseText;
+        }
+
+        function getQuestionTxt(){
+            return $.ajax({
+                type:"GET",
+                url: "rest/quiz/getQuestion/"+ quizId+"/"+questionId,
+                async: false
+            }).responseText;
+        }
+
+        $("#qQuizNavn").html(getQuizName());
+        $("#qSpm1").html(getQuestionTxt());
+
+        var altArray = new Array(2);
+
+        for(var i = 0; i < 2; i++){
+            altArray[i] = new Array(2);
+        }
+
+        function getAlternatives(index){
+            var out = [];
+            $.ajax({
+                url: 'rest/quiz/getAlternatives/' + quizId + '/' + questionId + '/' + index,
+                type: 'GET',
+                success: function(data){
+                    out = data;
+                },
+                async: false
+            });
+            return out;
+        }
+
+        for(var i = 0; i < 2; i++){
+            altArray[i] = getAlternatives(i);
+            $("#alt" + i).html(altArray[i][0]);
+        }
+
+        function checkAnswer() {
+            if(document.getElementById("Alternative1").checked){
+                if(altArray[0][1] == "Correct"){
+                    $.ajax({
+                        url: 'rest/quiz/setScore',
+                        type: 'POST',
+                        data: JSON.stringify(1),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json'
+                    });
+                }
+            }
+            if(document.getElementById("Alternative2").checked){
+                if(altArray[1][1] == "Correct"){
+                    $.ajax({
+                        url: 'rest/quiz/setScore',
+                        type: 'POST',
+                        data: JSON.stringify(1),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json'
+                    });
+                }
+            }
+        }
+
+        function nextQuestion() {
+            checkAnswer();
+            $.ajax({
+                url: 'rest/quiz/setCurrentQuestion/' + (questionId + 1),
+                type: 'POST',
+                data: JSON.stringify(questionId + 1),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            });
+            if (questionId >= 1) {
+                var nick = $.ajax({
+                    type:"GET",
+                    url: "rest/quiz/getNick/"+ quizId,
+                    async: false
+                }).responseText;
+
+                var score = $.ajax({
+                    type:"GET",
+                    url: "rest/quiz/getScore/"+ quizId,
+                    async: false
+                }).responseText;
+
+                $.ajax({
+                    url: 'rest/quiz/nyScore',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        nick: nick,
+                        score: score,
+                        quizName: getQuizName()
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json'
+                });
+                $.ajax({
+                    url: 'rest/quiz/wipeScore',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json'
+                });
+
+                window.location.href = "scoreboard.html";
+            } else {
+                window.location.reload();
+            }
+        }
+
+
+        function getTimeLeft(){
+            return $.ajax({
+                type:"GET",
+                url: "rest/quiz/getTimeLeft/"+ quizId+"/"+questionId,
+                async: false
+            }).responseText;
+        }
+        var timeleft = getTimeLeft();
+        document.getElementById("progressBar").max = timeleft;
+        document.getElementById("progressBar").value =timeleft;
+        $("#sekunder").html(timeleft);
+        var downloadTimer = setInterval(function () {
+            document.getElementById("progressBar").value = --timeleft;
+            $("#sekunder").html(timeleft);
+            if (timeleft <= 0) {
+                clearInterval(downloadTimer);
+                nextQuestion();
+            }
+        }, 1000);
+
+        /*$("#submit").click(function () {
+                nextQuestion();
+        })*/
+
+    })
+</script>
+</body> <!-- BODY--------------------------------------------------------------------- -->
+</html>           

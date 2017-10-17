@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BKs Quiz!</title>
+
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/jquery.dataTables.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        #nickDiv {
+            margin: auto;
+            width: 30%;
+            padding: 10px;
+        }
+        #myTable tbody tr:hover{
+            text-decoration:none;
+            cursor: pointer;
+        }
+        #delAll {
+            text-align: center;
+        }
+        #paQuiz {
+            color: green;
+        }
+        #oppQuiz {
+            color: darkorange;
+        }
+        .wrapper{
+            background-color: black;
+            width:150px;
+            margin-left: 43.5%;
+        }
+        #tableContain {
+            width: 80%;
+            margin-left: 10%;
+            border: 3px solid green;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body> <!-- BODY-------------------------------------------------------------------------------- -->
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">BKs Quiz!</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Quizzer</a></li>
+                <li><a href="registrer.html">Registrer Ny</a></li>
+                <li><a href="scoreboard.html">Scoreboard</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="text-center">
+            Velg En Quiz!
+        </h1>
+        <div id="nickDiv">
+            <input type="text" class="form-control" id="nick" placeholder="Enter your Nick"/><br>
+        </div>
+        <h2 class="text-center" id="paQuiz">
+            Pågående quizer:
+        </h2>
+        <div id="tableContain">
+            <table class="table table-hover" id="myTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Navn</th>
+                        <th>Start Time</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <!--<h2 class="text-center" id="oppQuiz">
+            Oppkommende quizer:
+        </h2>
+        <table class="table table-hover" id="myTableOpp">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Navn</th>
+                <th>Start Time</th>
+            </tr>
+            </thead>
+        </table>-->
+    </div>
+</div>
+
+<div id="delAll">
+    <button id="delBtn" class="btn btn-default">Delete All Data</button><br>
+    <button id="setup" class="btn btn-default">Lag test quiz-er</button>
+</div>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        $('#myTable').DataTable( {
+            ajax: {
+                url: 'rest/quiz/getQuizMap/now',
+                dataSrc: ''
+            },
+            bAutoWidth: false,
+            dom: '<"wrapper"l>ft<"contain"ip>',
+            columns: [
+                { data: 'id' },
+                { data: 'name' },
+                { data: 'startTime'},
+            ]
+        });
+
+        /*$('#myTableOpp').DataTable( {
+            ajax: {
+                url: 'rest/quiz/getQuizMap/comming',
+                dataSrc: ''
+            },
+            columns: [
+                { data: 'id' },
+                { data: 'name' },
+                { data: 'startTime'},
+            ]
+        });*/
+
+        $("#delBtn").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "rest/quiz/delAll",
+                success: function(result) {
+                    $('#myTable').DataTable().ajax.reload();
+                }
+            });
+        });
+
+        $("#setup").click(function () {
+            console.log("Test");
+            $.ajax({
+                type: "POST",
+                url: "rest/quiz/setup",
+                success: function (result) {
+                    $('#myTable').DataTable().ajax.reload();
+                }
+            })
+        });
+
+        $('#myTable').on("click", "tbody tr", function() {
+            if(document.getElementById("nick").value.length == 0){
+                alert("Please enter a nickname")
+                return;
+            }
+            $.ajax({
+                url: 'rest/quiz/setQuiz/' + $(this).find("td:first").text(),
+                type: 'POST',
+                data: JSON.stringify($(this).find("td:first").text()),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            });
+            $.ajax({
+                url: 'rest/quiz/setCurrentQuestion/0',
+                type: 'POST',
+                data: JSON.stringify(0),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            });
+            $.ajax({
+                url: 'rest/quiz/setNick',
+                type: 'POST',
+                data: JSON.stringify($("#nick").val()),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            });
+            window.location.href = "Question.html";
+        });
+
+
+    });
+</script>
+</body> <!-- BODY--------------------------------------------------------------------- -->
+</html>
