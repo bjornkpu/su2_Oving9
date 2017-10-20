@@ -35,46 +35,48 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div id="regQuizNameDiv">
+        <div id="tableContain">
+            <div id="regQuizNameDiv">
             <label>Name of the quiz</label>
             <input type="text" class="form-control" id="quizname" placeholder="Name"/>
             <label>Start Time</label>
             <input type="datetime-local" class="form-control" id="quizStartTime" value="2017-06-01T08:30"/>
         </div>
 
-        <form class="form-inline">
+            <form class="form-inline">
 
-            <div class="form-group" >
+                <div class="form-group" >
 
-                <label id="spmTxt1">Question 1</label><br>
-                <input type="text" class="form-control" id="spm1" placeholder="Enter your question"/>
-                <input type="number" class="form-control" id="spm1_time" placeholder="Enter seconds"/><br><br>
+                    <label id="spmTxt1">Question 1</label><br>
+                    <input type="text" class="form-control" id="spm1" placeholder="Enter your question"/>
+                    <input type="number" class="form-control" id="spm1_time" placeholder="Enter seconds"/><br><br>
 
-                <p>Check the correct answer in the checkbox below</p>
-                <input type="radio" name="question1" id="1_1cb" checked>
-                <input type="text" class="form-control" id="1_1" placeholder="Answer 1"/><br>
-                <input type="radio" name="question1" id="1_2cb">
-                <input type="text" class="form-control" id="1_2" placeholder="Answer 2"/><br><br>
+                    <p>Check the correct answer in the checkbox below</p>
+                    <input type="radio" name="question1" id="1_1cb" checked>
+                    <input type="text" class="form-control" id="1_1" placeholder="Answer 1"/><br>
+                    <input type="radio" name="question1" id="1_2cb">
+                    <input type="text" class="form-control" id="1_2" placeholder="Answer 2"/><br><br>
 
-            </div><br>
+                </div><br>
 
-            <div class="form-group">
-                <label id="spmTxt2">Question 2</label><br>
-                <input type="text" class="form-control" id="spm2" placeholder="Enter your question"/>
-                <input type="number" class="form-control" id="spm2_time" placeholder="Enter seconds"/><br><br>
+                <div class="form-group">
+                    <label id="spmTxt2">Question 2</label><br>
+                    <input type="text" class="form-control" id="spm2" placeholder="Enter your question"/>
+                    <input type="number" class="form-control" id="spm2_time" placeholder="Enter seconds"/><br><br>
 
-                <p>Check the correct answer in the checkbox below</p>
-                <input type="radio" name="question2" id="2_1cb" checked>
-                <input type="text" class="form-control" id="2_1" placeholder="Answer 1"/><br>
-                <input type="radio" name="question2" id="2_2cb">
-                <input type="text" class="form-control" id="2_2" placeholder="Answer 2"/><br><br>
+                    <p>Check the correct answer in the checkbox below</p>
+                    <input type="radio" name="question2" id="2_1cb" checked>
+                    <input type="text" class="form-control" id="2_1" placeholder="Answer 1"/><br>
+                    <input type="radio" name="question2" id="2_2cb">
+                    <input type="text" class="form-control" id="2_2" placeholder="Answer 2"/><br><br>
+                </div>
+
+            </form>
+
+            <div id="regBtnDiv">
+                <input type="submit" id="create" class="btn btn-default" value="Submit"><br>
+                <label id="success"></label>
             </div>
-
-        </form>
-
-        <div id="regBtnDiv">
-            <input type="submit" id="create" class="btn btn-default" value="Submit"><br>
-            <label id="success"></label>
         </div>
     </div>
 </div>

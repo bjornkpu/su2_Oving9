@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+    //fyller datatabellen med score
     $('#myTable').DataTable({
         ajax: {
             url: 'rest/quiz/getScoreMap',
@@ -13,6 +15,7 @@ $(document).ready(function() {
         ]
     }).order([1, 'desc']).draw();
 
+    //får tabellen til å oppdatere seg hvert sekund, (real-time-ish)
     window.setInterval( function () {
         $('#myTable').DataTable().ajax.reload();
     }, 1000);

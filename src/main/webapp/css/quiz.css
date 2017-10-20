@@ -1,20 +1,6 @@
+    /*alle*/
 body {
     padding-top: 50px;
-}
-#nickDiv {
-    margin: auto;
-    width: 30%;
-    padding: 10px;
-}
-#myTable tbody tr:hover{
-    text-decoration:none;
-    cursor: pointer;
-}
-#delAll {
-    text-align: center;
-}
-#paQuiz {
-    color: green;
 }
 #tableContain {
     width: 80%;
@@ -25,8 +11,27 @@ body {
 .row {
     margin: auto;
     width: 50%;
-    border: 3px solid green;
+    /*border: 3px solid green;*/
     padding: 10px;
+}
+
+    /*index*/
+#nickDiv {
+    margin: auto;
+    width: 30%;
+    padding: 10px;
+}
+#myTable tbody tr:hover{
+    text-decoration:none;
+    cursor: pointer;
+}
+/*#delAll {*/
+    /*text-align: center;*/
+/*}*/
+
+    /*Question*/
+#paQuiz {
+    color: green;
 }
 #qSpmForm {
     border: 3px solid green;
@@ -45,13 +50,14 @@ body {
 #sekunder{
     color: red;
 }
+
+    /*registrer*/
 #regBtnDiv {
     text-align: center;
 }
 #success {
     color: Green;
 }
-
 .form-control {
     width: 100%;
 }

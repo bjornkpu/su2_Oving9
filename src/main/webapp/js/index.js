@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+    //Henter og skriver quizzene i tabellen
     $('#myTable').DataTable( {
         ajax: {
             url: 'rest/quiz/getQuizMap/now',
@@ -14,27 +14,7 @@ $(document).ready(function() {
         ]
     });
 
-    $("#delBtn").click(function () {
-        $.ajax({
-            type: "POST",
-            url: "rest/quiz/delAll",
-            success: function(result) {
-                $('#myTable').DataTable().ajax.reload();
-            }
-        });
-    });
-
-    $("#setup").click(function () {
-        console.log("Test");
-        $.ajax({
-            type: "POST",
-            url: "rest/quiz/setup",
-            success: function (result) {
-                $('#myTable').DataTable().ajax.reload();
-            }
-        })
-    });
-
+    //Setter i gang en quiz når du trykker på en rad i datatabellen
     $('#myTable').on("click", "tbody tr", function() {
         if(document.getElementById("nick").value.length == 0){
             alert("Please enter a nickname")
@@ -64,5 +44,26 @@ $(document).ready(function() {
         window.location.href = "Question.html";
     });
 
+    /*//Sletter alle quizzene i datatabellen
+    $("#delBtn").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "rest/quiz/delAll",
+            success: function(result) {
+                $('#myTable').DataTable().ajax.reload();
+            }
+        });
+    });*/
 
+    /*//Lager testquizzer
+    $("#setup").click(function () {
+        console.log("Test");
+        $.ajax({
+            type: "POST",
+            url: "rest/quiz/setup",
+            success: function (result) {
+                $('#myTable').DataTable().ajax.reload();
+            }
+        })
+    });*/
 });

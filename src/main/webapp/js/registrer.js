@@ -1,5 +1,6 @@
 $(document).ready(function ($) {
 
+    //Finner nåværende tidspunk for å sette det i dato/tid feltet
     Date.prototype.toDateInputValue = (function() {
         var local = new Date(this);
         console.log(local);
@@ -7,8 +8,9 @@ $(document).ready(function ($) {
         return local.toJSON().slice(0,10)+"T"+local.getHours()+":"+local.getMinutes();
     });
 
-    $('#quizStartTime').val(new Date().toDateInputValue());
+    $('#quizStartTime').val(new Date().toDateInputValue());     //setter nåværende dato og tid i feltet
 
+    //valiiderer om alle feltene i fornet er fyllt ut. om ja, setter den submit knappen til enabled
     function validate() {
         var inputsWithValues = 0;
         // get all input fields except for type='submit'
@@ -28,8 +30,9 @@ $(document).ready(function ($) {
     }
 
     validate();
-    $('input').on('keyup', validate);
+    $('input').on('keyup', validate);       //hver gang noen har tastet noe inn i formen valler den validate()
 
+    //knappen som sender all data til servern
     $("#create").click(function () {
         console.log($("#quizStartTime").val());
         $.ajax({
