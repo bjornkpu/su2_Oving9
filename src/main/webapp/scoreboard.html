@@ -9,22 +9,7 @@
 
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/jquery.dataTables.min.css" rel="stylesheet">
-    <style>
-        body {
-            padding-top: 50px;
-        }
-        .wrapper{
-            background-color: black;
-            width:150px;
-            margin-left: 43.5%;
-        }
-    #tableContain {
-        width: 80%;
-        margin-left: 10%;
-        border: 3px solid green;
-        padding: 15px;
-    }
-    </style>
+    <link href="css/quiz.css" rel="stylesheet">
 </head>
 <body> <!-- BODY-------------------------------------------------------------------------------- -->
 
@@ -71,29 +56,8 @@
 </div>
 
 <script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/jquery.dataTables.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable({
-            ajax: {
-                url: 'rest/quiz/getScoreMap',
-                dataSrc: ''
-            },
-            bAutoWidth: false,
-            dom: '<"wrapper"l>ft<"contain"ip>',
-            columns: [
-                {data: 'nick'},
-                {data: 'quizName'},
-                {data: 'score'}
-            ]
-        }).order([1, 'desc']).draw();
-
-        window.setInterval( function () {
-            $('#myTable').DataTable().ajax.reload();
-        }, 1000);
-    })
-
-</script>
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="js/scoreboard.js"></script>
 </body> <!-- BODY--------------------------------------------------------------------- -->
 </html>

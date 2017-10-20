@@ -1,11 +1,57 @@
 body {
     padding-top: 50px;
 }
-#myTable a{
-    display:block;
-    text-decoration:none;
+#nickDiv {
+    margin: auto;
+    width: 30%;
+    padding: 10px;
 }
-#updatepanel{
-    width: 20%;
+#myTable tbody tr:hover{
+    text-decoration:none;
+    cursor: pointer;
+}
+#delAll {
     text-align: center;
+}
+#paQuiz {
+    color: green;
+}
+#tableContain {
+    width: 80%;
+    margin-left: 10%;
+    border: 3px solid green;
+    padding: 15px;
+}
+.row {
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}
+#qSpmForm {
+    border: 3px solid green;
+    padding: 10px;
+    left: 10px;
+}
+#progressBar {
+    width: 100%;
+}
+.alts{
+    font-size: 1.7em;
+}
+#text{
+    text-align: center;
+}
+#sekunder{
+    color: red;
+}
+#regBtnDiv {
+    text-align: center;
+}
+#success {
+    color: Green;
+}
+
+.form-control {
+    width: 100%;
 }
