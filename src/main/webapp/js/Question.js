@@ -129,6 +129,7 @@ $(document).ready(function ($) {
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json'
             });
+
             $.ajax({
                 url: 'rest/quiz/wipeScore',
                 type: 'POST',
@@ -136,11 +137,31 @@ $(document).ready(function ($) {
                 dataType: 'json'
             });
 
-            window.location.href = "scoreboard.html";
+            $("#ratings").show();
+
+
         } else {
             window.location.reload();
         }
     }
+
+    function setRatingAndQuitQuiz() {
+        var rating = $("#rat-value").val();
+        $.ajax({
+            url: 'rest/quiz/addRating/' + quizId + "/" + rating,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        });
+
+        window.location.href = "scoreboard.html";
+    }
+    window.setInterval( function () {
+        var pressed = $('#rat-value').val();
+        if(pressed != 0){
+            setRatingAndQuitQuiz();
+        }
+    }, 1000);
 
     //henter hvor mange sekunder hvert spørsmål skal vare
     function getTimeLeft(){
@@ -165,4 +186,5 @@ $(document).ready(function ($) {
             nextQuestion();
         }
     }, 1000);
-})
+
+});

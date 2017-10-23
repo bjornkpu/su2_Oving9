@@ -11,6 +11,7 @@ $(document).ready(function() {
             { data: 'id' },
             { data: 'name' },
             { data: 'startTime'},
+            { data: 'dRating'}
         ]
     });
 
@@ -55,7 +56,7 @@ $(document).ready(function() {
         });
     });*/
 
-    /*//Lager testquizzer
+    //Lager testquizzer
     $("#setup").click(function () {
         console.log("Test");
         $.ajax({
@@ -65,5 +66,5 @@ $(document).ready(function() {
                 $('#myTable').DataTable().ajax.reload();
             }
         })
-    });*/
+    });
 });

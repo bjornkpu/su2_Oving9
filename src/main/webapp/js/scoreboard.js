@@ -19,4 +19,4 @@ $(document).ready(function() {
     window.setInterval( function () {
         $('#myTable').DataTable().ajax.reload();
     }, 1000);
-})
+});

@@ -27,7 +27,7 @@ public class QuizService {
 
         Question spm1 = new Question();
         spm1.setSpmTxt("Hva?");
-        spm1.setSecondsLeft(10);
+        spm1.setSecondsLeft(3);
         Alternatives[] altArray1 = new Alternatives[2];
         altArray1[0] = new Alternatives("en",true);
         altArray1[1] = new Alternatives("to",false);
@@ -35,7 +35,7 @@ public class QuizService {
 
         Question spm2 = new Question();
         spm2.setSpmTxt("Hvor?");
-        spm2.setSecondsLeft(5);
+        spm2.setSecondsLeft(2);
         Alternatives[] altArray2 = new Alternatives[2];
         altArray2[0] = new Alternatives("her",true);
         altArray2[1] = new Alternatives("der",false);
@@ -132,6 +132,20 @@ public class QuizService {
     @Consumes(MediaType.APPLICATION_JSON)
     public void wipeScore(){
         quizMap.get(quizId).wipeScore();
+    }
+
+    @POST
+    @Path("/addRating/{quizId}/{rating}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addRating(@PathParam("rating") String rating, @PathParam("quizId") String quizId) {
+        if(quizMap.containsKey(quizId)){
+            int r = Integer.parseInt(rating);
+
+            quizMap.get(quizId).addRating(r);
+            System.out.println("Denne blir kaltttttt!");
+        } else {
+            throw new javax.ws.rs.NotFoundException();
+        }
     }
 
     @GET
@@ -266,6 +280,17 @@ public class QuizService {
     public String getNick(@PathParam("quizId") String quizId){
         if(quizMap.containsKey(quizId)){
             return quizMap.get(quizId).getNick();
+        } else {
+            throw new javax.ws.rs.NotFoundException();
+        }
+    }
+
+    @GET
+    @Path("/getRating/{quizId}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public double getRating(@PathParam("quizId") String quizId){
+        if(quizMap.containsKey(quizId)){
+            return quizMap.get(quizId).getRating();
         } else {
             throw new javax.ws.rs.NotFoundException();
         }

@@ -16,6 +16,8 @@ public class Quiz {
 	private Question[] qst;
 	private int score;
 	private String nick;
+	private Rating rating = new Rating();
+	private String dRating = "0";
 
 	public Quiz() {
 	}
@@ -69,6 +71,27 @@ public class Quiz {
 
 	public void setNick(String nick) {
 		this.nick = nick;
+	}
+
+	public double getRating() {
+		return rating.getRating();
+	}
+
+	public void addRating(int rateScore) {
+		rating.addRating(rateScore);
+		dRating = ""+getRating();
+	}
+
+	public void setRating(Rating rating) {
+		this.rating = rating;
+	}
+
+	public String getdRating() {
+		return dRating;
+	}
+
+	public void setdRating(String dRating) {
+		this.dRating = dRating;
 	}
 
 	@Override

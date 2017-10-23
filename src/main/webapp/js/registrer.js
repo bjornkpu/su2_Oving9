@@ -5,10 +5,17 @@ $(document).ready(function ($) {
         var local = new Date(this);
         console.log(local);
         local.setMinutes(this.getMinutes());
-        return local.toJSON().slice(0,10)+"T"+local.getHours()+":"+local.getMinutes();
+        return local.toJSON().slice(0,10)
+    });
+    Date.prototype.toTimeInputValue = (function() {
+        var local = new Date(this);
+        console.log(local);
+        local.setMinutes(this.getMinutes());
+        return local.getHours()+":"+local.getMinutes();
     });
 
-    $('#quizStartTime').val(new Date().toDateInputValue());     //setter nåværende dato og tid i feltet
+    $('#quizStartDate').val(new Date().toDateInputValue());     //setter nåværende dato i feltet
+    // $('#quizStartTime').val(new Date().toTimeInputValue());     //setter nåværende tid i feltet
 
     //valiiderer om alle feltene i fornet er fyllt ut. om ja, setter den submit knappen til enabled
     function validate() {
@@ -40,7 +47,7 @@ $(document).ready(function ($) {
             type: 'POST',
             data: JSON.stringify({
                 name: $("#quizname").val(),
-                startTime: $("#quizStartTime").val(),
+                startTime: $("#quizStartDate").val()+"T"+$("#quizStartTime").val(),
                 qst: [
                     {spmTxt: $("#spm1").val(), secondsLeft: $("#spm1_time").val(), alternatives: [
                         {text: $("#1_1").val(), correct: document.getElementById("1_1cb").checked},
